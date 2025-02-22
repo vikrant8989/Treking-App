@@ -187,7 +187,7 @@ const MediaItem = ({
 export default function BentoGallery() {
   const [expandedItem, setExpandedItem] = useState<number | null>(null);
   const [items, setItems] = useState(mediaItems);
-  const [isDragging, setIsDragging] = useState(false);
+  // const [isDragging, setIsDragging] = useState(false);
   const getExpandedSpan = (span: string): string => {
     const spanParts = span.split(" ");
     let mdCol = "",
@@ -269,7 +269,7 @@ export default function BentoGallery() {
                     : item.span
                 }`}
             onClick={() =>
-              !isDragging &&
+              // !isDragging &&
               setExpandedItem(expandedItem === item.id ? null : item.id)
             }
             variants={{
@@ -287,27 +287,27 @@ export default function BentoGallery() {
               },
             }}
             whileHover={{ scale: expandedItem === item.id ? 1 : 1.02 }}
-            drag={expandedItem !== item.id}
-            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            dragElastic={1}
-            onDragStart={() => setIsDragging(true)}
-            onDragEnd={(e, info) => {
-              setIsDragging(false);
-              if (expandedItem === null) {
-                const moveDistance = info.offset.x + info.offset.y;
-                if (Math.abs(moveDistance) > 50) {
-                  const newItems = [...items];
-                  const draggedItem = newItems[index];
-                  const targetIndex =
-                    moveDistance > 0
-                      ? Math.min(index + 1, items.length - 1)
-                      : Math.max(index - 1, 0);
-                  newItems.splice(index, 1);
-                  newItems.splice(targetIndex, 0, draggedItem);
-                  setItems(newItems);
-                }
-              }
-            }}
+            // drag={expandedItem !== item.id}
+            // dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+            // dragElastic={1}
+            // onDragStart={() => setIsDragging(true)}
+            // onDragEnd={(e, info) => {
+            //   setIsDragging(false);
+            //   if (expandedItem === null) {
+            //     const moveDistance = info.offset.x + info.offset.y;
+            //     if (Math.abs(moveDistance) > 50) {
+            //       const newItems = [...items];
+            //       const draggedItem = newItems[index];
+            //       const targetIndex =
+            //         moveDistance > 0
+            //           ? Math.min(index + 1, items.length - 1)
+            //           : Math.max(index - 1, 0);
+            //       newItems.splice(index, 1);
+            //       newItems.splice(targetIndex, 0, draggedItem);
+            //       setItems(newItems);
+            //     }
+            //   }
+            // }}
           >
             <MediaItem item={item} className="absolute inset-0 w-full h-full" />
             <motion.div
