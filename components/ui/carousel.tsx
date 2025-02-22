@@ -18,13 +18,12 @@ interface SlideProps {
   handleNextClick: () => void
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Slide = ({ slide, index, current, handleSlideClick, handlePreviousClick, handleNextClick }: SlideProps) => {
-  const slideRef = useRef<HTMLLIElement>(null)
+  const slideRef  = useRef<HTMLLIElement>(null)
 
   const xRef = useRef(0)
   const yRef = useRef(0)
-  const frameRef = useRef<number>()
+  const frameRef = useRef<number>(0)
 
   useEffect(() => {
     const animate = () => {
@@ -114,17 +113,6 @@ const Slide = ({ slide, index, current, handleSlideClick, handlePreviousClick, h
             </button>
           </div>
         </article>
-
-        {/* Navigation buttons */}
-        {/* <CarouselControl
-          type="previous"
-          title="Go to previous slide"
-          handleClick={(e) => {
-            e.stopPropagation()
-            handlePreviousClick()
-          }}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2"
-        /> */}
         <CarouselControl
           type="next"
           title="Go to next slide"

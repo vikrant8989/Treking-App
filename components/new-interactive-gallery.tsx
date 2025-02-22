@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { HoverButton } from "./ui/hover-button";
 import { MapPin } from "lucide-react";
-// Sample data
 const mediaItems = [
   {
     id: 1,
@@ -63,7 +62,6 @@ const mediaItems = [
   },
 ];
 
-// MediaItem component for rendering images and videos
 const MediaItem = ({
   item,
   className,
@@ -174,7 +172,6 @@ const MediaItem = ({
   }
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={item.url || "/placeholder.svg"}
       alt={item.title}
@@ -315,14 +312,9 @@ export default function BentoGallery() {
             <MediaItem item={item} className="absolute inset-0 w-full h-full" />
             <motion.div
               className="absolute inset-0 flex flex-col justify-end p-4"
-              //   initial={{ opacity: 0 }}
-              //   whileHover={{ opacity: 1 }}
-              //   animate={{ opacity: expandedItem === item.id ? 1 : 0 }}
                 transition={{ duration: 0.2 }}
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-              {/* <h3 className="relative text-white text-base sm:text-lg md:text-xl font-medium">{item.title}</h3> */}
-              {/* <p className="relative text-white/70 text-sm sm:text-base mt-2">{item.desc}</p> */}
               <HoverButton>
                 <div className="flex items-center text-white space-x-2">
                   <MapPin className="w-4 h-4" />

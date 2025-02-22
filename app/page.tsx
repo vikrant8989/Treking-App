@@ -2,7 +2,6 @@
 
 import Carousel from "@/components/ui/carousel";
 import ActivityCards from "@/components/activity-cards";
-// import InteractiveBentoGallery from "@/components/interactive-bento-gallery";
 import BentoGallery from "@/components/new-interactive-gallery";
 
 const slideData = [
@@ -32,17 +31,10 @@ const slideData = [
 
 export default function CarouselDemo() {
   return (
-    // <ScrollArea className="h-[89vh]">
       <div>
         <Carousel slides={slideData} />
         <ActivityCards/>
-        {/* <InteractiveBentoGallery
-          mediaItems={mediaItems}
-          title="Explore Breathtaking Destinations"
-          description="Drag and discover stunning travel spots from around the world"
-        /> */}
         <BentoGallery/>
       </div>
-    // </ScrollArea>
   );
 }
