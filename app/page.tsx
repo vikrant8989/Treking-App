@@ -3,6 +3,7 @@
 import Carousel from "@/components/ui/carousel";
 import ActivityCards from "@/components/activity-cards";
 import BentoGallery from "@/components/new-interactive-gallery";
+import { TestimonialsSection } from "@/components/testimonials-with-marquee";
 
 const slideData = [
   {
@@ -27,14 +28,51 @@ const slideData = [
   },
 ];
 
+const testimonials = [
+  {
+    author: {
+      name: "Emma Thompson",
+      handle: "@emmaexplores",
+      avatar:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
+    },
+    text: "This platform made planning my trekking adventure so much easier! The trail guides and community tips were incredibly helpful.",
+    href: "https://twitter.com/emmaexplores",
+  },
+  {
+    author: {
+      name: "David Park",
+      handle: "@davidhiker",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    },
+    text: "I found the perfect trekking routes thanks to this website. The real-time weather updates and gear recommendations were a lifesaver!",
+    href: "https://twitter.com/davidhiker",
+  },
+  {
+    author: {
+      name: "Sofia Rodriguez",
+      handle: "@sofiatreks",
+      avatar:
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
+    },
+    text: "The best resource for trekkers! I discovered hidden trails and connected with fellow adventurers. Highly recommend it!",
+  },
+];
 
-
-export default function CarouselDemo() {
+export default function Page() {
   return (
-      <div>
-        <Carousel slides={slideData} />
-        <ActivityCards/>
-        <BentoGallery/>
+    <div>
+      <Carousel slides={slideData} />
+      <ActivityCards />
+      <BentoGallery />
+      <div className="w-[350px] sm:w-[350px] md:w-full lg:w-full">
+        <TestimonialsSection
+         title="Trusted by User worldwide"
+         description="Hear from real users who have experienced the benefits of our platform firsthand."         
+          testimonials={testimonials}
+        />
       </div>
+    </div>
   );
 }
