@@ -49,13 +49,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    <body className={`${montserrat.variable} font-sans antialiased overflow-y-hidden` }>
+    <body className={`${montserrat.variable} font-sans antialiased` }>
       {/* Sticky Navbar */}
-      <div className="sticky top-0 z-5 bg-white shadow-sm">
+      <div className="sticky top-0 z-50 bg-white shadow-sm">
         <Navbar1 {...demoData} />
       </div>
 
-      <div className=" h-[calc(100vh-64px)]">
+      <div className="min-h-screen">
           <ScrollArea className="h-full w-full">
             <div className="">
               {children}
