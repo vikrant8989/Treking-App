@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { notFound } from "next/navigation";
 import { treks } from "../data/trek";
 import Carousel from "@/components/ui/carousel";
 import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
@@ -75,7 +74,7 @@ export default async function TrekDetails({ params }: PageProps) {
     return <div>loading..</div>;
   }
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
       <div className="relative w-full">
         <Carousel slides={trekData.heroImage} />
       </div>
