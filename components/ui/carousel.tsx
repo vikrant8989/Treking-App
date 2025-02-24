@@ -139,7 +139,7 @@ export default function Carousel({ slides }: CarouselProps) {
   const id = useId()
 
   return (
-    <div className="relative w-full h-[60vh] overflow-hidden rounded-md" aria-labelledby={`carousel-heading-${id}`}>
+    <div className="relative ml-2 w-[96vmin] h-[30vh] md:w-[96vmin] md:h-[30vh] lg:w-full lg:h-[60vh] overflow-hidden rounded-md" aria-labelledby={`carousel-heading-${id}`}>
       <ul className="relative w-full h-full">
         {slides.map((slide, index) => (
           <Slide

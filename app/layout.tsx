@@ -57,7 +57,7 @@ export default function RootLayout({
 
       <div className=" h-[calc(100vh-64px)]">
           <ScrollArea className="h-full w-full">
-            <div className="pl-4 pr-17 py-6 sm:px-6 md:px-8">
+            <div className="">
               {children}
             </div>
             <StackedCircularFooter/>

@@ -19,18 +19,18 @@ import { treks } from "../data/trek";
 import Carousel from "@/components/ui/carousel";
 
 interface PageProps {
-  params: {
-    eventname: string;
-  };
-}
+    params: Promise<{
+      eventname: string;
+    }>;
+  }
+  
 
-export default function TrekDetails({ params }: PageProps) {
-  const eventName = params.eventname;
-  console.log(eventName, "eve");
-  const trekData: any = treks.find((trek) => trek.slug == eventName);
+export default async function TrekDetails({ params }: PageProps) {
+  const { eventname } = await params;
+  const trekData: any = treks.find((trek) => trek.slug == eventname);
   console.log(trekData, "dddd");
   if (!trekData) {
-    <div>loading..</div>;
+    return <div>loading..</div>;
   }
   return (
     <div className="min-h-screen bg-background">

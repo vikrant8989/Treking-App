@@ -66,7 +66,7 @@ export default function Page() {
       <Carousel slides={slideData} />
       <ActivityCards />
       <BentoGallery />
-      <div className="w-[350px] sm:w-[350px] md:w-full lg:w-full">
+      <div className="w-[350px] sm:w-[350px]  md:w-[390px] lg:w-full">
         <TestimonialsSection
          title="Trusted by User worldwide"
          description="Hear from real users who have experienced the benefits of our platform firsthand."         

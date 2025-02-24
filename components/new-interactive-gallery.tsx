@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useEffect, useRef, useState } from "react";
@@ -72,7 +73,7 @@ const mediaItems = [
   },
 ];
 
-const difficultyStyles = {
+const difficultyStyles : any = {
   Easy: { bg: "bg-green-600", icon: <CheckCircle className="w-4 h-4 mr-1" /> },
   Moderate: { bg: "bg-yellow-600", icon: <Zap className="w-4 h-4 mr-1" /> },
   Challenging: { bg: "bg-red-600", icon: <Flame className="w-4 h-4 mr-1" /> },
@@ -203,7 +204,7 @@ export default function BentoGallery() {
   const [items, setItems] = useState(mediaItems);
   const router = useRouter();
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 pr-6 py-8 ">
       <div className="mb-8 text-center">
         <motion.h1
           className="text-2xl sm:text-3xl md:text-4xl font-bold bg-clip-text text-transparent 
