@@ -1,8 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { HoverButton } from "./ui/hover-button";
-import { MapPin } from "lucide-react";
+import { CheckCircle, Flame, MapPin, Zap } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Badge } from "./ui/badge";
 const mediaItems = [
   {
     id: 1,
@@ -11,6 +14,7 @@ const mediaItems = [
     desc: "Breathtaking high-altitude landscapes.",
     url: "./ladakh.jpg",
     span: "md:col-span-1 md:row-span-1 sm:col-span-1 sm:row-span-1",
+    difficulty: "Challenging",
   },
   {
     id: 2,
@@ -19,6 +23,7 @@ const mediaItems = [
     desc: "Golden sands and blue waves.",
     url: "./goa.jpg",
     span: "md:col-span-1 md:row-span-1 col-span-1 sm:col-span-1 sm:row-span-1",
+    difficulty: "Easy",
   },
   {
     id: 3,
@@ -27,6 +32,7 @@ const mediaItems = [
     desc: "Lush greenery and serene plantations.",
     url: "https://images.unsplash.com/photo-1555685812-4b943f1cb0eb",
     span: "md:col-span-1 md:row-span-1 sm:col-span-1 sm:row-span-1",
+    difficulty: "Moderate",
   },
   {
     id: 4,
@@ -35,6 +41,7 @@ const mediaItems = [
     desc: "Golden dunes and vibrant culture.",
     url: "./desert.jpg",
     span: "md:col-span-1 md:row-span-1 sm:col-span-1 sm:row-span-1",
+    difficulty: "Moderate",
   },
   {
     id: 5,
@@ -43,6 +50,7 @@ const mediaItems = [
     desc: "A spiritual journey along the Ganges.",
     url: "https://cdn.pixabay.com/video/2020/05/25/40130-424930032_large.mp4",
     span: "md:col-span-1 md:row-span-1 sm:col-span-1 sm:row-span-1",
+    difficulty: "Easy",
   },
   {
     id: 6,
@@ -51,6 +59,7 @@ const mediaItems = [
     desc: "Crystal-clear waters and coral reefs.",
     url: "./andaman.jpg",
     span: "md:col-span-1 md:row-span-1 sm:col-span-1 sm:row-span-1",
+    difficulty: "Moderate",
   },
   {
     id: 7,
@@ -59,9 +68,15 @@ const mediaItems = [
     desc: "A winter wonderland experience.",
     url: "https://cdn.pixabay.com/video/2020/07/30/46026-447087782_large.mp4",
     span: "md:col-span-1 md:row-span-1 sm:col-span-1 sm:row-span-1",
+    difficulty: "Challenging",
   },
 ];
 
+const difficultyStyles = {
+  Easy: { bg: "bg-green-600", icon: <CheckCircle className="w-4 h-4 mr-1" /> },
+  Moderate: { bg: "bg-yellow-600", icon: <Zap className="w-4 h-4 mr-1" /> },
+  Challenging: { bg: "bg-red-600", icon: <Flame className="w-4 h-4 mr-1" /> },
+};
 const MediaItem = ({
   item,
   className,
@@ -185,44 +200,8 @@ const MediaItem = ({
 
 // Main Gallery Component
 export default function BentoGallery() {
-  const [expandedItem, setExpandedItem] = useState<number | null>(null);
   const [items, setItems] = useState(mediaItems);
-  // const [isDragging, setIsDragging] = useState(false);
-  const getExpandedSpan = (span: string): string => {
-    const spanParts = span.split(" ");
-    let mdCol = "",
-      mdRow = "",
-      smCol = "",
-      smRow = "",
-      baseCol = "";
-
-    spanParts.forEach((part) => {
-      if (part.startsWith("md:col-span-")) mdCol = part;
-      else if (part.startsWith("md:row-span-")) mdRow = part;
-      else if (part.startsWith("sm:col-span-")) smCol = part;
-      else if (part.startsWith("sm:row-span-")) smRow = part;
-      else if (part.startsWith("col-span-")) baseCol = part;
-    });
-
-    const expandSpan = (
-      span: string,
-      prefix: string,
-      maxSpan: number
-    ): string => {
-      const currentSpan = Number.parseInt(span.split("-").pop() || "1");
-      const newSpan = Math.min(currentSpan * 2, maxSpan);
-      return `${prefix}span-${newSpan}`;
-    };
-
-    const expandedMdCol = expandSpan(mdCol, "md:col-", 4);
-    const expandedMdRow = expandSpan(mdRow, "md:row-", 4);
-    const expandedSmCol = "sm:col-span-1"; // Always set to 1 for small screens
-    const expandedSmRow = "sm:row-span-2"; // Always set to 2 for small screens
-    const expandedBaseCol = expandSpan(baseCol, "col-", 1);
-    const expandedBaseRow = expandSpan(baseCol, "row-", 2);
-
-    return `${expandedMdCol} ${expandedMdRow} ${expandedSmCol} ${expandedSmRow} ${expandedBaseCol} ${expandedBaseRow}`;
-  };
+  const router = useRouter();
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8 text-center">
@@ -262,16 +241,7 @@ export default function BentoGallery() {
           <motion.div
             key={item.id}
             layoutId={`media-${item.id}`}
-            className={`relative overflow-hidden rounded-xl cursor-pointer transition-all duration-500 ease-in-out
-                ${
-                  expandedItem === item.id
-                    ? getExpandedSpan(item.span)
-                    : item.span
-                }`}
-            onClick={() =>
-              // !isDragging &&
-              setExpandedItem(expandedItem === item.id ? null : item.id)
-            }
+            className="relative overflow-hidden rounded-xl cursor-pointer transition-all duration-500 ease-in-out"
             variants={{
               hidden: { y: 50, scale: 0.9, opacity: 0 },
               visible: {
@@ -286,39 +256,34 @@ export default function BentoGallery() {
                 },
               },
             }}
-            whileHover={{ scale: expandedItem === item.id ? 1 : 1.02 }}
-            // drag={expandedItem !== item.id}
-            // dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            // dragElastic={1}
-            // onDragStart={() => setIsDragging(true)}
-            // onDragEnd={(e, info) => {
-            //   setIsDragging(false);
-            //   if (expandedItem === null) {
-            //     const moveDistance = info.offset.x + info.offset.y;
-            //     if (Math.abs(moveDistance) > 50) {
-            //       const newItems = [...items];
-            //       const draggedItem = newItems[index];
-            //       const targetIndex =
-            //         moveDistance > 0
-            //           ? Math.min(index + 1, items.length - 1)
-            //           : Math.max(index - 1, 0);
-            //       newItems.splice(index, 1);
-            //       newItems.splice(targetIndex, 0, draggedItem);
-            //       setItems(newItems);
-            //     }
-            //   }
-            // }}
           >
             <MediaItem item={item} className="absolute inset-0 w-full h-full" />
+
+            {/* Difficulty Badge positioned at top-right with dynamic colors & icons */}
+            <Badge
+              className={`absolute top-2 right-2 text-white px-2 py-1 rounded-md flex items-center ${
+                difficultyStyles[item.difficulty]?.bg
+              }`}
+            >
+              {difficultyStyles[item.difficulty]?.icon}
+              {item.difficulty}
+            </Badge>
+
             <motion.div
               className="absolute inset-0 flex flex-col justify-end p-4"
-                transition={{ duration: 0.2 }}
+              transition={{ duration: 0.2 }}
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-              <HoverButton>
+              <HoverButton
+                onClick={() =>
+                  router.push(
+                    `/events/${item.title.toLowerCase().replace(/ /g, "-")}`
+                  )
+                }
+              >
                 <div className="flex items-center text-white space-x-2">
                   <MapPin className="w-4 h-4" />
-                  <span>{item.title} | Book Now</span>
+                  <span>{item.title} | Explore</span>
                 </div>
               </HoverButton>
             </motion.div>
@@ -337,4 +302,5 @@ interface MediaItemType {
   desc: string;
   url: string;
   span: string;
+  difficulty: string;
 }

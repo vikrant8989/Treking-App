@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
-import { IconArrowNarrowRight, IconArrowNarrowLeft } from "@tabler/icons-react"
+import { IconArrowNarrowRight } from "@tabler/icons-react"
+import type React from "react"
+
 import { useState, useRef, useId, useEffect } from "react"
 
 interface SlideData {
@@ -19,8 +21,7 @@ interface SlideProps {
 }
 
 const Slide = ({ slide, index, current, handleSlideClick, handlePreviousClick, handleNextClick }: SlideProps) => {
-  const slideRef  = useRef<HTMLLIElement>(null)
-
+  const slideRef = useRef<HTMLLIElement>(null)
   const xRef = useRef(0)
   const yRef = useRef(0)
   const frameRef = useRef<number>(0)
@@ -68,85 +69,47 @@ const Slide = ({ slide, index, current, handleSlideClick, handlePreviousClick, h
   const { src, button, title } = slide
 
   return (
-    <div className="[perspective:1200px] [transform-style:preserve-3d]">
-      <li
-        ref={slideRef}
-        className="flex flex-1 flex-col items-center justify-center relative text-center text-white opacity-100 transition-all duration-300 ease-in-out w-[90vmin] h-[50vmin] mx-[4vmin] z-10 "
-        onClick={() => handleSlideClick(index)}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          transform: current !== index ? "scale(0.98) rotateX(8deg)" : "scale(1) rotateX(0deg)",
-          transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
-          transformOrigin: "bottom",
-        }}
-      >
-        <div
-          className="absolute top-0 left-0 w-full h-full bg-[#1D1F2F] rounded-[20px] overflow-hidden transition-all duration-150 ease-out"
-          style={{
-            transform: current === index ? "translate3d(calc(var(--x) / 30), calc(var(--y) / 30), 0)" : "none",
-          }}
-        >
-          <img
-            className="absolute inset-0 w-[120%] h-[120%] object-cover opacity-100 transition-opacity duration-600 ease-in-out"
-            style={{
-              opacity: current === index ? 1 : 0.5,
-            }}
-            alt={title}
-            src={src || "/placeholder.svg"}
-            onLoad={imageLoaded}
-            loading="eager"
-            decoding="sync"
-          />
-          {current === index && <div className="absolute inset-0 bg-black/30 transition-all duration-1000" />}
-        </div>
-
-        <article
-          className={`relative p-[4vmin] transition-opacity duration-1000 ease-in-out ${
-            current === index ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
-        >
-          <h2 className="text-lg md:text-2xl lg:text-4xl font-semibold relative">{title}</h2>
-          <div className="flex justify-center">
-            <button className="mt-6 px-4 py-2 w-fit mx-auto sm:text-sm text-black bg-white h-12 border border-transparent text-xs flex justify-center items-center rounded-2xl hover:shadow-lg transition duration-200 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-              {button}
-            </button>
-          </div>
-        </article>
-        <CarouselControl
-          type="next"
-          title="Go to next slide"
-          handleClick={(e) => {
-            e.stopPropagation()
-            handleNextClick()
-          }}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2"
-        />
-      </li>
-    </div>
-  )
-}
-
-interface CarouselControlProps {
-  type: string
-  title: string
-  handleClick: (e: React.MouseEvent) => void
-  className?: string
-}
-
-const CarouselControl = ({ type, title, handleClick, className }: CarouselControlProps) => {
-  return (
-    <button
-      className={`w-10 h-10 flex items-center justify-center bg-white/80 hover:bg-white border-3 border-transparent rounded-full focus:border-[#6D64F7] focus:outline-none hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200 ${className}`}
-      title={title}
-      onClick={handleClick}
+    <li
+      ref={slideRef}
+      className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
+      style={{
+        transform: `translateX(${(index - current) * 100}%)`,
+        transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+      }}
+      onClick={() => handleSlideClick(index)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
-      {type === "previous" ? (
-        <IconArrowNarrowLeft className="text-neutral-600" />
-      ) : (
+      <div className="absolute inset-0">
+        <img
+          className="w-full h-full object-cover"
+          alt={title}
+          src={src || "/placeholder.svg"}
+          onLoad={imageLoaded}
+          loading="eager"
+          decoding="sync"
+        />
+        <div className="absolute inset-0 bg-black/30" />
+      </div>
+
+      <div className="relative z-10 text-center text-white px-4">
+        <h2 className="text-4xl md:text-6xl font-bold mb-8">{title}</h2>
+        <button className="px-8 py-3 text-base font-medium text-black bg-white rounded-full hover:shadow-lg transition duration-200">
+          {button}
+        </button>
+      </div>
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation()
+          handleNextClick()
+        }}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center bg-white/80 hover:bg-white rounded-full hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200"
+        title="Next slide"
+      >
         <IconArrowNarrowRight className="text-neutral-600" />
-      )}
-    </button>
+      </button>
+    </li>
   )
 }
 
@@ -176,13 +139,8 @@ export default function Carousel({ slides }: CarouselProps) {
   const id = useId()
 
   return (
-    <div className="relative w-[90vmin] h-[50vmin] mx-auto" aria-labelledby={`carousel-heading-${id}`}>
-      <ul
-        className="absolute flex mx-[-4vmin] transition-transform duration-1000 ease-in-out"
-        style={{
-          transform: `translateX(-${current * (100 / slides.length)}%)`,
-        }}
-      >
+    <div className="relative w-full h-[60vh] overflow-hidden rounded-md" aria-labelledby={`carousel-heading-${id}`}>
+      <ul className="relative w-full h-full">
         {slides.map((slide, index) => (
           <Slide
             key={index}
