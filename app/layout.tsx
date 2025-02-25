@@ -47,17 +47,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning = {true}>
       <body className={`${montserrat.variable} font-sans antialiased h-full`}>
-        {/* Sticky Navbar */}
         <div className="sticky top-0 z-50 bg-white shadow-sm">
           <Navbar1 {...demoData} />
         </div>
 
-        {/* Main content with ScrollArea */}
         <div className="h-[calc(100vh-5rem)]">
-          {" "}
-          {/* Adjust 4rem based on your navbar height */}
           <ScrollArea className="h-full">
             <main className="min-h-full">{children}</main>
             <StackedCircularFooter />

@@ -94,9 +94,9 @@ const Slide = ({ slide, index, current, handleSlideClick, handlePreviousClick, h
 
       <div className="relative z-10 text-center text-white px-4">
         <h2 className="text-4xl md:text-6xl font-bold mb-8">{title}</h2>
-        <button className="px-8 py-3 text-base font-medium text-black bg-white rounded-full hover:shadow-lg transition duration-200">
+        {/* <button className="px-8 py-3 text-base font-medium text-black bg-white rounded-full hover:shadow-lg transition duration-200">
           {button}
-        </button>
+        </button> */}
       </div>
 
       <button
