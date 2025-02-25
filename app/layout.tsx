@@ -1,12 +1,10 @@
 import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
 import "./globals.css"
-import type React from "react" // Import React
-import { Book, Sunset, Trees, Zap } from "lucide-react";
-import { Navbar1 } from "@/components/shadcnblocks-com-navbar1";
-import { StackedCircularFooter } from "@/components/ui/stacked-circular-footer";
-import { ScrollArea } from "@/components/ui/scroll-area";
-
+import type React from "react"
+import { Navbar1 } from "@/components/shadcnblocks-com-navbar1"
+import { StackedCircularFooter } from "@/components/ui/stacked-circular-footer"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 const demoData = {
   logo: {
@@ -31,7 +29,8 @@ const demoData = {
     login: { text: "Log in", url: "/login" },
     signup: { text: "Sign up", url: "/signup" },
   },
-};
+}
+
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
@@ -48,23 +47,24 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-    <body className={`${montserrat.variable} font-sans antialiased` }>
-      {/* Sticky Navbar */}
-      <div className="sticky top-0 z-50 bg-white shadow-sm">
-        <Navbar1 {...demoData} />
-      </div>
+    <html lang="en" className="h-full">
+      <body className={`${montserrat.variable} font-sans antialiased h-full`}>
+        {/* Sticky Navbar */}
+        <div className="sticky top-0 z-50 bg-white shadow-sm">
+          <Navbar1 {...demoData} />
+        </div>
 
-      <div className="min-h-screen">
-          <ScrollArea className="h-full w-full">
-            <div className="">
-              {children}
-            </div>
-            <StackedCircularFooter/>
+        {/* Main content with ScrollArea */}
+        <div className="h-[calc(100vh-5rem)]">
+          {" "}
+          {/* Adjust 4rem based on your navbar height */}
+          <ScrollArea className="h-full">
+            <main className="min-h-full">{children}</main>
+            <StackedCircularFooter />
           </ScrollArea>
         </div>
-    </body>
-  </html>
+      </body>
+    </html>
   )
 }
 
