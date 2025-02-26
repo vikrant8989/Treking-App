@@ -1,8 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 import { IconArrowNarrowRight } from "@tabler/icons-react"
 import type React from "react"
-
 import { useState, useRef, useId, useEffect } from "react"
 
 interface SlideData {
@@ -71,7 +69,7 @@ const Slide = ({ slide, index, current, handleSlideClick, handlePreviousClick, h
   return (
     <li
       ref={slideRef}
-      className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
+      className="absolute top-0 left-0 w-full h-full flex items-center justify-center touch-pan-y"
       style={{
         transform: `translateX(${(index - current) * 100}%)`,
         transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -94,9 +92,6 @@ const Slide = ({ slide, index, current, handleSlideClick, handlePreviousClick, h
 
       <div className="relative z-10 text-center text-white px-4">
         <h2 className="text-4xl md:text-6xl font-bold mb-8">{title}</h2>
-        {/* <button className="px-8 py-3 text-base font-medium text-black bg-white rounded-full hover:shadow-lg transition duration-200">
-          {button}
-        </button> */}
       </div>
 
       <button
@@ -104,7 +99,7 @@ const Slide = ({ slide, index, current, handleSlideClick, handlePreviousClick, h
           e.stopPropagation()
           handleNextClick()
         }}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center bg-white/80 hover:bg-white rounded-full hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 hidden md:flex items-center justify-center bg-white/80 hover:bg-white rounded-full hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200"
         title="Next slide"
       >
         <IconArrowNarrowRight className="text-neutral-600" />
@@ -119,6 +114,9 @@ interface CarouselProps {
 
 export default function Carousel({ slides }: CarouselProps) {
   const [current, setCurrent] = useState(0)
+  const touchStartX = useRef(0)
+  const touchEndX = useRef(0)
+  const minSwipeDistance = 50 // minimum distance for a swipe
 
   const handlePreviousClick = () => {
     const previous = current - 1
@@ -136,10 +134,38 @@ export default function Carousel({ slides }: CarouselProps) {
     }
   }
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    const swipeDistance = touchStartX.current - touchEndX.current
+
+    if (Math.abs(swipeDistance) > minSwipeDistance) {
+      if (swipeDistance > 0) {
+        // Swiped left
+        handleNextClick()
+      } else {
+        // Swiped right
+        handlePreviousClick()
+      }
+    }
+  }
+
   const id = useId()
 
   return (
-    <div className="relative ml-2 w-[96vmin] h-[30vh] md:w-[96vmin] md:h-[30vh] lg:w-[99%] lg:h-[60vh] overflow-hidden rounded-md" aria-labelledby={`carousel-heading-${id}`}>
+    <div
+      className="relative ml-2 w-[96vmin] h-[30vh] md:w-[96vmin] md:h-[30vh] lg:w-[99%] lg:h-[60vh] overflow-hidden rounded-md"
+      aria-labelledby={`carousel-heading-${id}`}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <ul className="relative w-full h-full">
         {slides.map((slide, index) => (
           <Slide
