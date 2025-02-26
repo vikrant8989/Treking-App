@@ -27,7 +27,7 @@ export default function ActivityCards() {
   const displayedActivities = showAll ? activities : activities.slice(0, maxActivities);
 
   return (
-    <div className="w-full max-w-full mx-auto px-4 py-8">
+    <div className="w-full mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold">Explore Your interests</h2>
         <button

@@ -204,7 +204,7 @@ export default function BentoGallery() {
   const [items, setItems] = useState(mediaItems);
   const router = useRouter();
   return (
-    <div className="container mx-auto px-4 pr-6 py-8 ">
+    <div className="container mx-auto px-4 py-8 ">
       <div className="mb-8 text-center">
         <motion.h1
           className="text-2xl sm:text-3xl md:text-4xl font-bold bg-clip-text text-transparent 
