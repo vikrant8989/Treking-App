@@ -1,57 +1,78 @@
-"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client"
 
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
+import { motion, AnimatePresence, type PanInfo } from "framer-motion"
+import Image from "next/image"
+import { useEffect, useState, useCallback } from "react"
+import { cn } from "@/lib/utils"
 
 type Testimonial = {
-  quote: string;
-  name: string;
-  designation: string;
-  src: string;
-};
+  quote: string
+  name: string
+  designation: string
+  src: string
+}
 
 export const AnimatedTestimonials = ({
   testimonials,
   autoplay = false,
   className,
 }: {
-  testimonials: Testimonial[];
-  autoplay?: boolean;
-  className?: string;
+  testimonials: Testimonial[]
+  autoplay?: boolean
+  className?: string
 }) => {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(0)
+  const [dragStart, setDragStart] = useState(0)
 
-  const handleNext = () => {
-    setActive((prev) => (prev + 1) % testimonials.length);
-  };
+  const handleNext = useCallback(() => {
+    setActive((prev) => (prev + 1) % testimonials.length)
+  }, [testimonials.length])
 
-  const handlePrev = () => {
-    setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  const handlePrev = useCallback(() => {
+    setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+  }, [testimonials.length])
+
+  const handleDragEnd = (event: any, info: PanInfo) => {
+    const swipeThreshold = 50 // minimum distance for swipe
+    const { offset } = info
+
+    if (Math.abs(offset.x) > swipeThreshold) {
+      if (offset.x > 0) {
+        handlePrev()
+      } else {
+        handleNext()
+      }
+    }
+  }
 
   const isActive = (index: number) => {
-    return index === active;
-  };
+    return index === active
+  }
 
   useEffect(() => {
     if (autoplay) {
-      const interval = setInterval(handleNext, 5000);
-      return () => clearInterval(interval);
+      const interval = setInterval(handleNext, 5000)
+      return () => clearInterval(interval)
     }
-  }, [autoplay]);
+  }, [autoplay, handleNext])
 
   const randomRotateY = () => {
-    return Math.floor(Math.random() * 21) - 10;
-  };
+    return Math.floor(Math.random() * 21) - 10
+  }
 
   return (
     <div className={cn("max-w-sm md:max-w-4xl mx-auto px-4 md:px-8 lg:px-12 py-20", className)}>
       <div className="relative grid grid-cols-1 md:grid-cols-2 gap-10">
         <div>
-          <div className="relative h-80 w-full">
+          <motion.div
+            className="relative h-80 w-full"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={handleDragEnd}
+          >
             <AnimatePresence>
               {testimonials.map((testimonial, index) => (
                 <motion.div
@@ -67,9 +88,7 @@ export const AnimatedTestimonials = ({
                     scale: isActive(index) ? 1 : 0.95,
                     z: isActive(index) ? 0 : -100,
                     rotate: isActive(index) ? 0 : randomRotateY(),
-                    zIndex: isActive(index)
-                      ? 999
-                      : testimonials.length + 2 - index,
+                    zIndex: isActive(index) ? 999 : testimonials.length + 2 - index,
                     y: isActive(index) ? [0, -80, 0] : 0,
                   }}
                   exit={{
@@ -82,10 +101,10 @@ export const AnimatedTestimonials = ({
                     duration: 0.4,
                     ease: "easeInOut",
                   }}
-                  className="absolute inset-0 origin-bottom"
+                  className="absolute inset-0 origin-bottom touch-pan-x"
                 >
                   <Image
-                    src={testimonial.src}
+                    src={testimonial.src || "/placeholder.svg"}
                     alt={testimonial.name}
                     width={300}
                     height={300}
@@ -95,7 +114,7 @@ export const AnimatedTestimonials = ({
                 </motion.div>
               ))}
             </AnimatePresence>
-          </div>
+          </motion.div>
         </div>
         <div className="flex justify-between flex-col py-4">
           <motion.div
@@ -117,12 +136,8 @@ export const AnimatedTestimonials = ({
               ease: "easeInOut",
             }}
           >
-            <h3 className="text-2xl font-bold text-foreground">
-              {testimonials[active].name}
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              {testimonials[active].designation}
-            </p>
+            <h3 className="text-2xl font-bold text-foreground">{testimonials[active].name}</h3>
+            <p className="text-sm text-muted-foreground">{testimonials[active].designation}</p>
             <motion.p className="text-lg text-muted-foreground mt-8">
               {testimonials[active].quote.split(" ").map((word, index) => (
                 <motion.span
@@ -149,7 +164,7 @@ export const AnimatedTestimonials = ({
               ))}
             </motion.p>
           </motion.div>
-          <div className="flex gap-4 pt-12 md:pt-0">
+          <div className="hidden md:flex gap-4 pt-12 md:pt-0">
             <button
               onClick={handlePrev}
               className="h-7 w-7 rounded-full bg-secondary flex items-center justify-center group/button"
@@ -166,5 +181,6 @@ export const AnimatedTestimonials = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
+

@@ -1,70 +1,77 @@
-"use client"
-import { IconArrowNarrowRight } from "@tabler/icons-react"
-import type React from "react"
-import { useState, useRef, useId, useEffect } from "react"
+"use client";
+import { IconArrowNarrowLeft, IconArrowNarrowRight } from "@tabler/icons-react";
+import type React from "react";
+import { useState, useRef, useId, useEffect } from "react";
 
 interface SlideData {
-  title: string
-  button: string
-  src: string
+  title: string;
+  button: string;
+  src: string;
 }
 
 interface SlideProps {
-  slide: SlideData
-  index: number
-  current: number
-  handleSlideClick: (index: number) => void
-  handlePreviousClick: () => void
-  handleNextClick: () => void
+  slide: SlideData;
+  index: number;
+  current: number;
+  handleSlideClick: (index: number) => void;
+  handlePreviousClick: () => void;
+  handleNextClick: () => void;
 }
 
-const Slide = ({ slide, index, current, handleSlideClick, handlePreviousClick, handleNextClick }: SlideProps) => {
-  const slideRef = useRef<HTMLLIElement>(null)
-  const xRef = useRef(0)
-  const yRef = useRef(0)
-  const frameRef = useRef<number>(0)
+const Slide = ({
+  slide,
+  index,
+  current,
+  handleSlideClick,
+  handlePreviousClick,
+  handleNextClick,
+}: SlideProps) => {
+  const slideRef = useRef<HTMLLIElement>(null);
+  const xRef = useRef(0);
+  const yRef = useRef(0);
+  const frameRef = useRef<number>(0);
 
   useEffect(() => {
     const animate = () => {
-      if (!slideRef.current) return
+      if (!slideRef.current) return;
 
-      const x = xRef.current
-      const y = yRef.current
+      const x = xRef.current;
+      const y = yRef.current;
 
-      slideRef.current.style.setProperty("--x", `${x}px`)
-      slideRef.current.style.setProperty("--y", `${y}px`)
+      slideRef.current.style.setProperty("--x", `${x}px`);
+      slideRef.current.style.setProperty("--y", `${y}px`);
 
-      frameRef.current = requestAnimationFrame(animate)
-    }
+      frameRef.current = requestAnimationFrame(animate);
+    };
 
-    frameRef.current = requestAnimationFrame(animate)
+    frameRef.current = requestAnimationFrame(animate);
 
     return () => {
       if (frameRef.current) {
-        cancelAnimationFrame(frameRef.current)
+        cancelAnimationFrame(frameRef.current);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const handleMouseMove = (event: React.MouseEvent) => {
-    const el = slideRef.current
-    if (!el) return
+    const el = slideRef.current;
+    if (!el) return;
 
-    const r = el.getBoundingClientRect()
-    xRef.current = event.clientX - (r.left + Math.floor(r.width / 2))
-    yRef.current = event.clientY - (r.top + Math.floor(r.height / 2))
-  }
+    const r = el.getBoundingClientRect();
+    xRef.current = event.clientX - (r.left + Math.floor(r.width / 2));
+    yRef.current = event.clientY - (r.top + Math.floor(r.height / 2));
+  };
 
   const handleMouseLeave = () => {
-    xRef.current = 0
-    yRef.current = 0
-  }
+    xRef.current = 0;
+    yRef.current = 0;
+  };
 
   const imageLoaded = (event: React.SyntheticEvent<HTMLImageElement>) => {
-    event.currentTarget.style.opacity = "1"
-  }
+    event.currentTarget.style.opacity = "1";
+  };
 
-  const { src, button, title } = slide
+  const { src, button, title } = slide;
 
   return (
     <li
@@ -93,70 +100,79 @@ const Slide = ({ slide, index, current, handleSlideClick, handlePreviousClick, h
       <div className="relative z-10 text-center text-white px-4">
         <h2 className="text-4xl md:text-6xl font-bold mb-8">{title}</h2>
       </div>
-
       <button
         onClick={(e) => {
-          e.stopPropagation()
-          handleNextClick()
+          e.stopPropagation();
+          handlePreviousClick();
         }}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 hidden md:flex items-center justify-center bg-white/80 hover:bg-white rounded-full hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 hidden md:flex items-center justify-center bg-white/80 hover:bg-white rounded-full transition duration-200"
+        title="Previous slide"
+      >
+        <IconArrowNarrowLeft className="text-neutral-600" />
+      </button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleNextClick();
+        }}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 hidden md:flex items-center justify-center bg-white/80 hover:bg-white rounded-full transition duration-200"
         title="Next slide"
       >
         <IconArrowNarrowRight className="text-neutral-600" />
       </button>
     </li>
-  )
-}
+  );
+};
 
 interface CarouselProps {
-  slides: SlideData[]
+  slides: SlideData[];
 }
 
 export default function Carousel({ slides }: CarouselProps) {
-  const [current, setCurrent] = useState(0)
-  const touchStartX = useRef(0)
-  const touchEndX = useRef(0)
-  const minSwipeDistance = 50 // minimum distance for a swipe
+  const [current, setCurrent] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const minSwipeDistance = 50; // minimum distance for a swipe
 
   const handlePreviousClick = () => {
-    const previous = current - 1
-    setCurrent(previous < 0 ? slides.length - 1 : previous)
-  }
+    const previous = current - 1;
+    setCurrent(previous < 0 ? slides.length - 1 : previous);
+  };
 
   const handleNextClick = () => {
-    const next = current + 1
-    setCurrent(next === slides.length ? 0 : next)
-  }
+    const next = current + 1;
+    setCurrent(next === slides.length ? 0 : next);
+  };
 
   const handleSlideClick = (index: number) => {
     if (current !== index) {
-      setCurrent(index)
+      setCurrent(index);
     }
-  }
+  };
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX
-  }
+    touchStartX.current = e.touches[0].clientX;
+  };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX
-  }
+    touchEndX.current = e.touches[0].clientX;
+  };
 
   const handleTouchEnd = () => {
-    const swipeDistance = touchStartX.current - touchEndX.current
+    const swipeDistance = touchStartX.current - touchEndX.current;
 
     if (Math.abs(swipeDistance) > minSwipeDistance) {
       if (swipeDistance > 0) {
         // Swiped left
-        handleNextClick()
+        handleNextClick();
       } else {
         // Swiped right
-        handlePreviousClick()
+        handlePreviousClick();
       }
     }
-  }
+  };
 
-  const id = useId()
+  const id = useId();
 
   return (
     <div
@@ -180,6 +196,5 @@ export default function Carousel({ slides }: CarouselProps) {
         ))}
       </ul>
     </div>
-  )
+  );
 }
-
