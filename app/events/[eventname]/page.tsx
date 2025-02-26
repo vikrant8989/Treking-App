@@ -127,7 +127,7 @@ export default function Page({ params }: { params: Promise<{ eventname: string }
         </div>
       </div>
 
-      <div className="mx-auto px-4 py-8">
+      <div className="mx-auto px-4 pr-5 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           <div className="flex items-center gap-3">
             <Mountain className="w-8 h-8 text-primary" />
@@ -263,7 +263,7 @@ export default function Page({ params }: { params: Promise<{ eventname: string }
         </div>
       </div>
 
-      <section id="photo-gallery" className="mx-auto px-4 py-8">
+      <section id="photo-gallery" className="mx-auto pl-1 pr-5 py-8">
         <h2 className="text-2xl font-bold mb-6 text-left">Photo Gallery</h2>
         <Tabs defaultValue={galleryTabs[0]?.value || "tab-1"}>
           <ScrollArea>
@@ -353,7 +353,7 @@ export default function Page({ params }: { params: Promise<{ eventname: string }
         )}
       </AnimatePresence>
 
-      <section id="trek-info" className="mx-auto px-4 py-8">
+      <section id="trek-info" className="mx-auto px-4 pr-5 py-8">
         <h2 className="text-2xl font-bold mb-6">Complete Trek Information</h2>
         <div className="prose prose-gray max-w-none dark:prose-invert mb-6">
           <p className="text-lg italic">
