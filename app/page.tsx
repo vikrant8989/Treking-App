@@ -4,6 +4,7 @@ import Carousel from "@/components/ui/carousel";
 import ActivityCards from "@/components/activity-cards";
 import BentoGallery from "@/components/new-interactive-gallery";
 import { TestimonialsSection } from "@/components/testimonials-with-marquee";
+import { FloatingButtonExample } from "@/components/whatsapp-integration-ui";
 
 const slideData = [
   {
@@ -64,12 +65,15 @@ export default function Page() {
   return (
     <div>
       <Carousel slides={slideData} />
+      <div className="fixed bottom-4 right-4 z-50">
+        <FloatingButtonExample />
+      </div>
       <ActivityCards />
       <BentoGallery />
       <div className="w-[350px] sm:w-[350px]  md:w-[390px] lg:w-full">
         <TestimonialsSection
-         title="Trusted by User worldwide"
-         description="Hear from real users who have experienced the benefits of our platform firsthand."         
+          title="Trusted by User worldwide"
+          description="Hear from real users who have experienced the benefits of our platform firsthand."
           testimonials={testimonials}
         />
       </div>
