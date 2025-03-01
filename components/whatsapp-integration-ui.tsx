@@ -1,4 +1,5 @@
 /* eslint-disable react/no-children-prop */
+"use client"
 import {
     FloatingButton,
     FloatingButtonItem,
