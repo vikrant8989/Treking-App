@@ -109,7 +109,7 @@ const Navbar1 = ({
   
   
   return (
-    <section className="py-4">
+    <section className="py-4 pl-2 pr-2">
       <div className="w-full">
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
