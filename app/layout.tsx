@@ -3,9 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import type React from "react";
 import { Navbar1 } from "@/components/shadcnblocks-com-navbar1";
-import { StackedCircularFooter } from "@/components/ui/stacked-circular-footer";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { FloatingButtonExample } from "@/components/whatsapp-integration-ui";
 
 const demoData = {
   logo: {
@@ -20,12 +18,7 @@ const demoData = {
       url: "/blog",
     },
   ],
-  mobileExtraLinks: [
-    { name: "Press", url: "/press" },
-    { name: "Contact", url: "/contact" },
-    { name: "Imprint", url: "/imprint" },
-    { name: "Sitemap", url: "/sitemap" },
-  ],
+  mobileExtraLinks: [],
   auth: {
     login: { text: "Log in", url: "/login" },
     signup: { text: "Sign up", url: "/signup" },
@@ -55,12 +48,8 @@ export default function RootLayout({
         </div>
 
         <div className="h-[calc(100vh-5rem)]">
-          <ScrollArea className="h-full">
-            <div className="fixed bottom-4 right-4 z-50">
-              <FloatingButtonExample />
-            </div>
+          <ScrollArea className="h-full">       
             <main className="min-h-full">{children}</main>
-            <StackedCircularFooter />
           </ScrollArea>
         </div>
       </body>

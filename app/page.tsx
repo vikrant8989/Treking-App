@@ -4,6 +4,8 @@ import Carousel from "@/components/ui/carousel";
 import ActivityCards from "@/components/activity-cards";
 import BentoGallery from "@/components/new-interactive-gallery";
 import { TestimonialsSection } from "@/components/testimonials-with-marquee";
+import { FloatingButtonExample } from "@/components/whatsapp-integration-ui";
+import { StackedCircularFooter } from "@/components/ui/stacked-circular-footer";
 
 const slideData = [
   {
@@ -73,6 +75,10 @@ export default function Page() {
           testimonials={testimonials}
         />
       </div>
+      <div className="fixed bottom-4 right-4 z-50">
+        <FloatingButtonExample />
+      </div>
+      <StackedCircularFooter />
     </div>
   );
 }

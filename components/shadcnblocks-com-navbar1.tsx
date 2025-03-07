@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
-import { Book, Menu, Router, Sunset, Trees, Zap } from "lucide-react";
+"use client";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -17,7 +16,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Settings, User, Webcam } from "lucide-react";
+import { ChevronDown, Settings, Menu, User, Webcam } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -42,8 +41,8 @@ import {
 } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { JSX } from "react/jsx-runtime";
-import { useRouter } from "next/navigation";
-
+import { usePathname, useRouter } from "next/navigation";
+const isLoggedIn = true;
 interface MenuItem {
   title: string;
   url: string;
@@ -89,12 +88,7 @@ const Navbar1 = ({
       url: "#",
     },
   ],
-  mobileExtraLinks = [
-    { name: "Press", url: "#" },
-    { name: "Contact", url: "#" },
-    { name: "Imprint", url: "#" },
-    { name: "Sitemap", url: "#" },
-  ],
+  mobileExtraLinks = [],
   auth = {
     login: { text: "Log in", url: "#" },
     signup: { text: "Sign up", url: "#" },
@@ -104,10 +98,29 @@ const Navbar1 = ({
 
   const userId = 1; // Replace this with the actual dynamic user ID
   const handleProfileClick = () => {
-    router.push(`/${userId}`);
+    router.push(`/user-dashboard/${userId}`);
   };
-  
-  
+  const pathname = usePathname();
+
+  // Add user dashboard links dynamically
+  if (pathname.includes("/user-dashboard/")) {
+    mobileExtraLinks = [
+      { name: "My Profile", url: `/user-dashboard/${1}/user-profile` },
+      { name: "My Communities", url: `/user-dashboard/${1}/user-communities` },
+      { name: "My Events", url: `/user-dashboard/${1}/user-events` },
+      { name: "My Treks", url: "/treks" },
+      { name: "Settings", url: "/settings" },
+      { name: "Support", url: "/support" },
+      ...mobileExtraLinks,
+    ];
+  }
+  mobileExtraLinks = isLoggedIn
+    ? [
+        { name: "My Dashboard", url: `/user-dashboard/${userId}` },
+        { name: "Visibility", url: "#" },
+        ...mobileExtraLinks,
+      ]
+    : mobileExtraLinks;
   return (
     <section className="py-4 pl-2 pr-2">
       <div className="w-full">
@@ -126,63 +139,65 @@ const Navbar1 = ({
             </div>
           </div>
           <div className="flex gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Avatar className="cursor-pointer">
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-60 mr-2 ">
-                <DropdownMenuLabel>Vikrant</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleProfileClick} className="cursor-pointer">
-                  <User className="mr-2 size-4" />
-                  My Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 size-4" />
-                  <span>Personal Settings</span>
-                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <Webcam className="mr-2 size-4" />
-                    <span>Visibility</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
-                      <DropdownMenuItem>
-                        <span>Online</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <span>Appear Offline</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuSubContent>
-                  </DropdownMenuPortal>
-                </DropdownMenuSub>
-
-                <DropdownMenuSeparator />
-                <DropdownMenuLabel inset>Current Status</DropdownMenuLabel>
-
-                <DropdownMenuRadioGroup value="invisible">
-                  <DropdownMenuRadioItem value="online">
-                    Online
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="invisible">
-                    Invisible
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem disabled value="offline">
-                    Offline
-                  </DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {isLoggedIn ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="@shadcn"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-60 mr-2 ">
+                  <DropdownMenuLabel>Vikrant</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleProfileClick}
+                    className="cursor-pointer"
+                  >
+                    <User className="mr-2 size-4" />
+                    My dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      <Webcam className="mr-2 size-4" />
+                      <span>Visibility</span>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent>
+                        <DropdownMenuItem>
+                          <span>Online</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <span>Appear Offline</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage src="/loginavatar.jpg" alt="loginavatar" />
+                    <AvatarFallback>Login</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-60 mr-2" align="center">
+                  <DropdownMenuLabel>Join with us</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <Button asChild className="text-md">
+                      <a href={auth.signup.url}>Join</a>
+                    </Button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </nav>
         <div className="block lg:hidden">
@@ -194,7 +209,20 @@ const Navbar1 = ({
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
-                  <Menu className="size-4" />
+                  {isLoggedIn ? (
+                    <Avatar className="cursor-pointer">
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="@shadcn"
+                      />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  ) : (
+                    <Avatar className="cursor-pointer">
+                      <AvatarImage src="/loginavatar.jpg" alt="loginavatar" />
+                      <AvatarFallback>Login</AvatarFallback>
+                    </Avatar>
+                  )}
                 </Button>
               </SheetTrigger>
               <SheetContent className="overflow-y-auto">
@@ -229,14 +257,13 @@ const Navbar1 = ({
                       ))}
                     </div>
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <Button asChild variant="outline">
-                      <a href={auth.login.url}>{auth.login.text}</a>
-                    </Button>
-                    <Button asChild>
-                      <a href={auth.signup.url}>{auth.signup.text}</a>
-                    </Button>
-                  </div>
+                  {!isLoggedIn && (
+                    <div className="flex flex-col gap-3">     
+                      <Button asChild>
+                        <a href={auth.signup.url}>Join</a>
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>
