@@ -12,10 +12,9 @@ import {
 } from "lucide-react";
 
 const menuItems = [
-  { icon: User2, text: "My Profile", href: `/user-dashboard/${1}/user-profile`},
-  { icon: Users, text: "My Communities", href: `/user-dashboard/${1}/user-communities` },
-  { icon: Calendar, text: "My Events", href: `/user-dashboard/${1}/user-events` },
-  { icon: Map, text: "My Treks", href: "/treks" },
+  { icon: User2, text: "Profile", href: `/user-dashboard/${1}/user-profile`},
+  { icon: Users, text: "Communities", href: `/user-dashboard/${1}/user-communities` },
+  { icon: Calendar, text: "Events", href: `/user-dashboard/${1}/user-events` },
   { icon: Settings, text: "Settings", href: "/settings" },
   { icon: HelpCircle, text: "Support", href: "/support" },
 ];

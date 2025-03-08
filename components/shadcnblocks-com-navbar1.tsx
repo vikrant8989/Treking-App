@@ -42,7 +42,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { JSX } from "react/jsx-runtime";
 import { usePathname, useRouter } from "next/navigation";
-const isLoggedIn = true;
+const isLoggedIn = false;
 interface MenuItem {
   title: string;
   url: string;
@@ -64,10 +64,6 @@ interface Navbar1Props {
     url: string;
   }[];
   auth?: {
-    login: {
-      text: string;
-      url: string;
-    };
     signup: {
       text: string;
       url: string;
@@ -90,8 +86,7 @@ const Navbar1 = ({
   ],
   mobileExtraLinks = [],
   auth = {
-    login: { text: "Log in", url: "#" },
-    signup: { text: "Sign up", url: "#" },
+    signup: { text: "Sign up", url: "/auth" },
   },
 }: Navbar1Props) => {
   const router = useRouter();
@@ -102,13 +97,11 @@ const Navbar1 = ({
   };
   const pathname = usePathname();
 
-  // Add user dashboard links dynamically
   if (pathname.includes("/user-dashboard/")) {
     mobileExtraLinks = [
-      { name: "My Profile", url: `/user-dashboard/${1}/user-profile` },
-      { name: "My Communities", url: `/user-dashboard/${1}/user-communities` },
-      { name: "My Events", url: `/user-dashboard/${1}/user-events` },
-      { name: "My Treks", url: "/treks" },
+      { name: "Profile", url: `/user-dashboard/${1}/user-profile` },
+      { name: "Communities", url: `/user-dashboard/${1}/user-communities` },
+      { name: "Events", url: `/user-dashboard/${1}/user-events` },
       { name: "Settings", url: "/settings" },
       { name: "Support", url: "/support" },
       ...mobileExtraLinks,
@@ -188,11 +181,11 @@ const Navbar1 = ({
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-60 mr-2" align="center">
-                  <DropdownMenuLabel>Join with us</DropdownMenuLabel>
+                  <DropdownMenuLabel>Join MadClub</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <Button asChild className="text-md">
-                      <a href={auth.signup.url}>Join</a>
+                    <Button asChild className="text-md w-[50%] mx-auto rounded-lg">
+                      <a href={'/auth'}>Join</a>
                     </Button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>

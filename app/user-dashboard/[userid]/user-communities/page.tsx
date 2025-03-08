@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card"
 export default function MySocieties() {
   return (
     <div className="mx-auto p-6 bg-white">
-      <h1 className="text-3xl font-bold mb-6">My Societies</h1>
+      <h1 className="text-3xl font-bold mb-6">Societies</h1>
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {/* Starry Night Card */}

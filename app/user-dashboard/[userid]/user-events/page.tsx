@@ -40,7 +40,7 @@ export default function MySocials() {
 
   return (
     <div className="mx-auto p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-8">My Socials</h1>
+      <h1 className="text-3xl font-bold mb-8">Socials</h1>
 
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {socials.map((social) => (
