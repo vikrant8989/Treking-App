@@ -2,7 +2,7 @@ type IconProps = React.HTMLAttributes<SVGElement>
 import Image from "next/image"
 export const Icons = {
   logo: (props: IconProps) => (
-    <Image src={"/company-logo/mad-club1.png"} width={90} height={90} alt={""} {...props} />
+    <Image src={"/company-logo/mad-club1.png"} width={90} height={90} alt={""} />
   ),
   twitter: (props: IconProps) => (
     <svg
