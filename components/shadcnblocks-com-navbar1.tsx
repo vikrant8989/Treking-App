@@ -42,7 +42,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { JSX } from "react/jsx-runtime";
 import { usePathname, useRouter } from "next/navigation";
-const isLoggedIn = false;
+const isLoggedIn = true;
 interface MenuItem {
   title: string;
   url: string;
@@ -74,9 +74,9 @@ interface Navbar1Props {
 const Navbar1 = ({
   logo = {
     url: "/",
-    src: "https://www.shadcnblocks.com/images/block/block-1.svg",
-    alt: "logo",
-    title: "Trekterra.com",
+    src: "/company-logo/mad-club1.png",
+    alt: "company logo",
+    title: "MADCLUB",
   },
   menu = [
     {

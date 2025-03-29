@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,23 +28,20 @@ function StackedCircularFooter() {
       <div className="px-4 md:px-6">
         <div className="flex flex-col items-center space-y-8 md:space-y-12">
           {/* Logo */}
-          <div className="mb-4 rounded-full bg-primary/10 p-6 md:p-8">
-            <Icons.logo className="w-8 md:w-10" />
+          <div className="mb-4 rounded-full">
+            <Icons.logo />
           </div>
 
           {/* Navigation Links */}
           <nav className="flex flex-wrap justify-center gap-4 sm:gap-6 text-center w-full">
-            <a href="#" className="hover:text-primary">
+            <a href="/" className="hover:text-primary">
               Home
             </a>
             <a href="#" className="hover:text-primary">
               About
             </a>
             <a href="#" className="hover:text-primary">
-              Services
-            </a>
-            <a href="#" className="hover:text-primary">
-              Products
+              Blog
             </a>
             <a href="#" className="hover:text-primary">
               Contact
